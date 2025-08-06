@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7f91fd9-f000-4798-af92-b1574dc3973c" name="Changes" comment="SECOND HOMEWORK">
+    <list default="true" id="b7f91fd9-f000-4798-af92-b1574dc3973c" name="Changes" comment="THIRD HOMEWORK">
+      <change afterPath="$PROJECT_DIR$/templates/dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/financial_tracker.db" beforeDir="false" afterPath="$PROJECT_DIR$/financial_tracker.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +117,15 @@
       <option name="project" value="LOCAL" />
       <updated>1753810964240</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="THIRD HOMEWORK">
+      <option name="closed" value="true" />
+      <created>1754224998457</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1754224998457</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -137,6 +143,7 @@
     <MESSAGE value="first commit" />
     <MESSAGE value="First Homework" />
     <MESSAGE value="SECOND HOMEWORK" />
-    <option name="LAST_COMMIT_MESSAGE" value="SECOND HOMEWORK" />
+    <MESSAGE value="THIRD HOMEWORK" />
+    <option name="LAST_COMMIT_MESSAGE" value="THIRD HOMEWORK" />
   </component>
 </project>
