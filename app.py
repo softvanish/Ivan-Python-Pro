@@ -1,9 +1,15 @@
 # Python Pro Project Ivan
 import sqlite3
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, session, redirect
 
 app = Flask(__name__)
+
+app.secret_key = 'asdfueqwfgvh129345'
+
+SPEND = 1
+INCOME = 2
+
 
 
 class Database:
@@ -36,9 +42,10 @@ def get_login():
         email = request.form["email"]
         password = request.form["password"]
         with Database("financial_tracker.db") as cursor:
-            result = cursor.execute(f"SELECT * FROM user where email = '{email}' and password = '{password}'")
+            result = cursor.execute(f"SELECT id FROM user where email = '{email}' and password = '{password}'")
             data = result.fetchone()
         if data:
+            session['user_id'] = data[0]
             return "Correct"
         return "Wrong"
 
@@ -82,10 +89,28 @@ def delete_category(category_id):
 
 @app.route("/income", methods=["GET", "POST"])
 def get_all_income():
-    if request.method == "GET":
-        return "GET"
+    if 'user_id' in session:
+       if request.method == "GET":
+                with Database("financial_tracker.db") as cursor:
+                    data = cursor.execute(
+                        f"SELECT * FROM 'transaction' where owner = {session['user_id']} and type = {INCOME}")
+                    res = data.fetchall()
+
+                return render_template('dashboard.html', transactions=res)
+       else:
+           with Database("financial_tracker.db") as cursor:
+
+               description = request.form['description']
+               amount = request.form['amount']
+               owner = request.form['owner']
+               category = request.form['category']
+               type = INCOME
+               date = request.form['date']
+               cursor.execute(f"INSERT INTO 'transiction' (description, amount, owner, category, type, date) VALUES ('{transaction_description}', '{transaction_amount}')")
+           return redirect('/income')
+
     else:
-        return "POST"
+        return redirect('/login')
 
 
 @app.route("/income/<income_id>", methods=["GET", "POST"])
