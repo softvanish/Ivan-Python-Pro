@@ -11,7 +11,6 @@ SPEND = 1
 INCOME = 2
 
 
-
 class Database:
     def __init__(self, db_name):
         self.db_name = db_name
@@ -96,7 +95,10 @@ def get_all_income():
                         f"SELECT * FROM 'transaction' where owner = {session['user_id']} and type = {INCOME}")
                     res = data.fetchall()
 
-                return render_template('dashboard.html', transactions=res)
+                    cats = cursor.execute(f"SELECT id, name FROM 'category'")
+                    cat_res = cats.fetchall()
+
+                return render_template('dashboard.html', transactions=res, categories=cat_res)
        else:
            with Database("financial_tracker.db") as cursor:
 
@@ -130,7 +132,10 @@ def get_all_spend():
                     f"SELECT * FROM 'transaction' where owner = {session['user_id']} and type = {SPEND}")
                 res = data.fetchall()
 
-            return render_template('dashboard.html', transactions=res)
+                cats = cursor.execute(f"SELECT id, name FROM 'category'")
+                cat_res = cats.fetchall()
+
+            return render_template('dashboard.html', transactions=res, categories=cat_res)
         else:
             with Database("financial_tracker.db") as cursor:
 
