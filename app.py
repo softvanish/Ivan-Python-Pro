@@ -1,7 +1,11 @@
 # Python Pro Project Ivan
 import sqlite3
+import database
+import models
 
+from sqlalchemy import select
 from flask import Flask, request, render_template, session, redirect
+from database import db_session, init_db
 
 app = Flask(__name__)
 
@@ -9,51 +13,6 @@ app.secret_key = 'asdfueqwfgvh129345'
 
 SPEND = 1
 INCOME = 2
-
-
-class DBwrapper:
-
-    def insert(self, table, data):
-
-        with Database('financial_tracker.db') as cursor:
-            cursor.execute(f'INSERT INTO {table} ({", ".join(data.keys())}) VALUES ({", ".join(["?"] * len(data))})', tuple(data.values()))
-
-    def select(self, table, params):
-
-        with Database('financial_tracker.db') as cursor:
-            if params:
-                result_params = []
-
-                for key, value in params.items():
-                    if isinstance(value, list):
-                        result_params.append(f"{key} IN ({', '.join(map(str, value))})")
-                    else:
-                        if isinstance(value, str):
-                            result_params.append(f"{key} = '{value}'")
-                        else:
-                            result_params.append(f"{key} = {value}")
-
-                    result_where = ' AND '.join(result_params)
-
-                    cursor.execute(f'SELECT * FROM {table} WHERE {result_where}')
-            else:
-                cursor.execute(f'SELECT * FROM {table}')
-            return cursor.fetchall()
-
-
-class Database:
-    def __init__(self, db_name):
-        self.db_name = db_name
-
-    def __enter__(self):
-        self.conn = sqlite3.connect(self.db_name)
-        self.conn.row_factory = sqlite3.Row
-        self.cursor = self.conn.cursor()
-        return self.cursor
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.conn.commit()
-        self.conn.close()
 
 
 @app.route("/user", methods=["GET", "DELETE"])
@@ -74,11 +33,11 @@ def get_login():
 
         email = request.form["email"]
         password = request.form["password"]
-        db = DBwrapper()
-        data = db.select('user', {'email': email, 'password': password})
+        init_db()
+        data = list(db_session.execute(select(models.User).filter_by(email=email, password=password)).scalars())
 
         if data:
-            session['user_id'] = data[0]['id']
+            session['user_id'] = data[0].id
 
             return "Correct"
 
@@ -99,8 +58,10 @@ def get_register():
         password = request.form["password"]
         email = request.form["email"]
 
-        db = DBwrapper()
-        db.insert('user', {'name': use_name, 'surname': sur_name, 'password': password, 'email': email})
+        init_db()
+        new_user = models.User(name=use_name, surname=sur_name, password=password, email=email)
+        db_session.add(new_user)
+        db_session.commit()
 
         return "User registered"
 
@@ -109,14 +70,16 @@ def get_register():
 def get_all_category():
     if 'user_id' in session:
         if request.method == 'GET':
-            db = DBwrapper()
-            res = db.select('category', {'owner': [session['user_id'], 1]})
-            return render_template("category-list.html", categories=res)
+            init_db()
+            categories = list(db_session.execute(select(models.Category).filter_by(owner=session['user_id'])).scalars())
+            sys_categories = list(db_session.execute(select(models.Category).filter_by(owner=1)).scalars())
+            return render_template("category-list.html", categories=categories+sys_categories)
         else:
             category_name = request.form["category_name"]
             category_owner = session["user_id"]
-            db = DBwrapper()
-            db.insert("category", {'name': category_name, 'owner': category_owner})
+            new_category = models.Category(name=category_name, owner=category_owner)
+            db_session.add(new_category)
+            db_session.commit()
             return redirect('/category')
 
 
