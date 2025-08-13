@@ -36,11 +36,13 @@
 
 <h2>Your Transactions:</h2>
 <ul>
-    {% for transaction in transactions %}
-        <li>
-            {{ transaction[1] }} — {{ transaction[2] }} — {{ transaction[5] }} — {{ transaction[6] }}
-        </li>
-    {% endfor %}
+{% for transaction in transactions %}
+    <li>
+        {{ transaction.description }} — {{ transaction.amount }} — {{ transaction.type }} — {{ transaction.date }}
+    </li>
+{% else %}
+    <li>No transactions</li>
+{% endfor %}
 </ul>
 
 </body>

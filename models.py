@@ -22,8 +22,8 @@ class Transaction(Base):
     __tablename__ = 'transactions'
     id = Column(Integer, primary_key=True)
     description = Column(String(100))
-    category = ForeignKey('category.id', ondelete='CASCADE')
-    owner = ForeignKey('user.id', ondelete='CASCADE')
+    category = Column(Integer, ForeignKey('category.id', ondelete='CASCADE'), nullable=False)
+    owner = Column(Integer, ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
     type = Column(Enum('income', 'spend'))
     date = Column(DateTime)
     amount = Column(REAL)

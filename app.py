@@ -2,7 +2,8 @@
 import sqlite3
 import database
 import models
-
+import datetime
+from datetime import datetime
 from sqlalchemy import select
 from flask import Flask, request, render_template, session, redirect
 from database import db_session, init_db
@@ -87,9 +88,9 @@ def get_all_category():
 def get_category(category_id):
     if 'user_id' in session:
         if request.method == 'GET':
-            db = DBwrapper()
-            current_category = db.select('category', {'id': int(category_id)})[0]
-            res = db.select('transactions', {'category': int(category_id), 'owner': session['user_id']})
+            init_db()
+            current_category = db_session.scalar(select(models.Category).filter_by(id=int(category_id)))
+            res = db_session.execute(select(models.Transaction).filter_by(category=int(category_id), owner=session['user_id'])).scalars
             return render_template('one_category.html', transactions=res, category=current_category)
         else:
             return "bla bla bla"
@@ -104,26 +105,19 @@ def delete_category(category_id):
 def get_all_income():
     if 'user_id' not in session:
         return redirect('/login')
-
-    db = DBwrapper()
-
     if request.method == "GET":
-        res = db.select('transactions', {'owner': session['user_id'], 'type': INCOME})
-
-        with Database('financial_tracker.db') as cursor:
-            cursor.execute("SELECT id, name FROM category")
-            cat_res = cursor.fetchall()
+        init_db()
+        res = list(db_session.execute(select(models.Transaction).filter_by(owner=session['user_id'], type='income')).scalars())
+        cat_res = list(db_session.execute(select(models.Category.id, models.Category.name)))
         return render_template('dashboard.html', transactions=res, categories=cat_res)
 
     else:
-        db.insert('transactions', {
-            'description': request.form['description'],
-            'amount': request.form['amount'],
-            'owner': request.form['owner'],
-            'category': request.form['category'],
-            'type': INCOME,
-            'date': request.form['date']
-        })
+        init_db()
+        new_trans = models.Transaction(description=request.form['description'], amount=request.form['amount'],
+                                       owner=session['user_id'], category=request.form['category'],
+                                       type='income', date=datetime.strptime(request.form['date'], "%Y-%m-%d"))
+        db_session.add(new_trans)
+        db_session.commit()
         return redirect('/income')
 
 
@@ -139,26 +133,20 @@ def get_income(income_id):
 def get_all_spend():
     if 'user_id' not in session:
         return redirect('/login')
-
-    db = DBwrapper()
-
     if request.method == "GET":
-        res = db.select('transactions', {'owner': session['user_id'], 'type': SPEND})
-
-        with Database('financial_tracker.db') as cursor:
-            cursor.execute("SELECT id, name FROM category")
-            cat_res = cursor.fetchall()
+        init_db()
+        res = list(
+            db_session.execute(select(models.Transaction).filter_by(owner=session['user_id'], type='spend')).scalars())
+        cat_res = list(db_session.execute(select(models.Category.id, models.Category.name)))
         return render_template('dashboard.html', transactions=res, categories=cat_res)
 
     else:
-        db.insert('transactions', {
-            'description': request.form['description'],
-            'amount': request.form['amount'],
-            'owner': request.form['owner'],
-            'category': request.form['category'],
-            'type': INCOME,
-            'date': request.form['date']
-        })
+        init_db()
+        new_trans = models.Transaction(description=request.form['description'], amount=request.form['amount'],
+                                       owner=session['user_id'], category=request.form['category'],
+                                       type='spend', date=datetime.strptime(request.form['date'], "%Y-%m-%d"))
+        db_session.add(new_trans)
+        db_session.commit()
         return redirect('/spend')
 
 
