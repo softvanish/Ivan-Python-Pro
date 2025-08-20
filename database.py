@@ -1,8 +1,9 @@
 
-
+#from models import Category
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+
 
 engine = create_engine('sqlite:///financial_tracker.db')
 db_session = scoped_session(sessionmaker(autocommit=False,
@@ -17,4 +18,13 @@ def init_db():
     # they will be registered properly on the metadata.  Otherwise
     # you will have to import them first before calling init_db()
     import models
+    from models import Category
     Base.metadata.create_all(bind=engine)
+
+    other_category = db_session.query(Category).filter_by(name="other").first()
+
+    if not other_category:
+
+        other_category = Category(name="other", owner=None)
+        db_session.add(other_category)
+        db_session.commit()

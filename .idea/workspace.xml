@@ -4,16 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b7f91fd9-f000-4798-af92-b1574dc3973c" name="Changes" comment="Homework 6">
-      <change afterPath="$PROJECT_DIR$/alembic.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/alembic/README" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/alembic/env.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/alembic/script.py.mako" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/alembic/versions/5d02055da213_.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/financial_tracker_old.db" afterDir="false" />
+    <list default="true" id="b7f91fd9-f000-4798-af92-b1574dc3973c" name="Changes" comment="Homework 7&#10;&#10;alembic was downloaded&#10;&#10;everything works">
+      <change afterPath="$PROJECT_DIR$/alembic/versions/88866609aa6b_.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/alembic/versions/a8d711cf9b06_.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/user.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/financial_tracker.db" beforeDir="false" afterPath="$PROJECT_DIR$/financial_tracker.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/category-list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/category-list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,8 +26,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -47,17 +50,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Python.app.executor&quot;: &quot;Run&quot;,
-    &quot;Python.models.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Python.a8d711cf9b06_.executor": "Run",
+    "Python.app.executor": "Run",
+    "Python.models.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Python and More\Projects and Tests\PythonProIvan" />
@@ -159,7 +163,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755082400599</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Homework 7&#10;&#10;alembic was downloaded&#10;&#10;everything works">
+      <option name="closed" value="true" />
+      <created>1755424156265</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1755424156265</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -182,6 +194,7 @@
     <MESSAGE value="Homework 5" />
     <MESSAGE value="Homework" />
     <MESSAGE value="Homework 6" />
-    <option name="LAST_COMMIT_MESSAGE" value="Homework 6" />
+    <MESSAGE value="Homework 7&#10;&#10;alembic was downloaded&#10;&#10;everything works" />
+    <option name="LAST_COMMIT_MESSAGE" value="Homework 7&#10;&#10;alembic was downloaded&#10;&#10;everything works" />
   </component>
 </project>

@@ -17,7 +17,7 @@ class Category(Base):
     __tablename__ = 'category'
     id = Column(Integer, primary_key=True)
     name = Column(String(50))
-    owner = Column(Integer)
+    owner = Column(Integer, nullable=True)
 
 
 class Transaction(Base):

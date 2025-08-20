@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+  <style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 18px;
+  }
+  th, td {
+    border: 2px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+    button {
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        button {
+            background-color: #2196F3;
+            color: white;
+        }
+        button:hover {
+            background-color: #1976D2;
+        }
+
+</style>
+</head>
+<body>
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Category</th>
+    <th>Amount</th>
+      <th>Datetime</th>
+    <th>Type</th>
+    <th>Description</th>
+  </tr>
+  {% for t in transactions %}
+  <tr>
+    <td>{{ t.id }}</td>
+    <td>{{ t.category_name }}</td>
+    <td>{{ t.amount }}</td>
+    <td>{{ t.date.strftime("%d.%m.%Y %H:%M") }}</td>
+    <td>{{ t.type }}</td>
+    <td>{{ t.description }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<form action="/user" method="get">
+  <input type="date" name="start_date" id="start_date" placeholder="Date">
+<input type="date" name="end_date" id="end_date" placeholder="Date">
+<input type="submit">Filter</input>
+  </form>
+
+<form action="/logout" method="get">
+  <button type="submit">Logout</button>
+</form>
+
+</body>
+</html>

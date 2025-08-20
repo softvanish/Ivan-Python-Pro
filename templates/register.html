@@ -3,18 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            padding-top: 40px;
+        }
+        form {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin: 8px 0 4px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="date"] {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        input[type="submit"],
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        button {
+            background-color: #2196F3;
+            color: white;
+        }
+        button:hover {
+            background-color: #1976D2;
+        }
+    </style>
 </head>
 <body>
-<form action="/register" method = "post">
-  <label for="name">name</label><br>
-  <input type="text" id="name" name="name"><br>
-    <label for="surname">surname</label><br>
-  <input type="text" id="surname" name="surname"><br>
-  <label for="password">password:</label><br>
-  <input type="password" id="password" name="password"><br><br>
-    <label for="email">email:</label><br>
-  <input type="email" id="email" name="email"><br><br>
+
+<form action="/register" method="post">
+  <label for="name">Name</label>
+  <input type="text" id="name" name="name">
+
+  <label for="surname">Surname</label>
+  <input type="text" id="surname" name="surname">
+
+  <label for="password">Password</label>
+  <input type="password" id="password" name="password">
+
+  <label for="email">Email</label>
+  <input type="email" id="email" name="email">
+
+  <label for="birth_date">Birth date</label>
+  <input type="date" id="birth_date" name="birth_date">
+
+  <label for="country">Country</label>
+  <input type="text" id="country" name="country">
+
   <input type="submit" value="Submit">
 </form>
+
+<form action="/login" method="get">
+  <button type="submit">Login</button>
+</form>
+
 </body>
 </html>

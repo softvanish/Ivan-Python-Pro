@@ -4,9 +4,11 @@ import database
 import models
 import datetime
 from datetime import datetime
-from sqlalchemy import select
+from sqlalchemy import select, desc
 from flask import Flask, request, render_template, session, redirect
 from database import db_session, init_db
+from models import Category, Transaction
+
 
 app = Flask(__name__)
 
@@ -16,12 +18,24 @@ SPEND = 1
 INCOME = 2
 
 
-@app.route("/user", methods=["GET", "DELETE"])
+@app.route("/user", methods=["GET"])
 def user_handler():
-    if request.method == "GET":
-        return "GET"
-    else:
-        return "DELETE"
+    if "user_id" in session:
+        stmt = (select(models.Transaction).filter_by(owner=session["user_id"]))
+        if 'start_date' in request.args and 'end_date' in request.args:
+            date_from = datetime.strptime(request.args['start_date'], "%Y-%m-%d")
+            date_to = datetime.strptime(request.args['end_date'], "%Y-%m-%d")
+            stmt = stmt.filter(models.Transaction.date.between(date_from, date_to))
+        stmt = stmt.order_by(desc(models.Transaction.date))
+        transactions = db_session.execute(stmt).scalars().all()
+        stmt_cat = select(models.Category)
+        categories = db_session.execute(stmt_cat).scalars().all()
+        cat_map = {c.id: c.name for c in categories}
+
+        for t in transactions:
+            t.category_name = cat_map.get(t.category, "Unknown")
+
+        return render_template("user.html", transactions=transactions)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -40,12 +54,18 @@ def get_login():
         if data:
             session['user_id'] = data[0].id
 
-            return "Correct"
+            return redirect('/user')
 
-        return "Wrong"
+        return redirect('/login')
 
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/logout", methods=["GET", "POST"])
+def log_out():
+    session.clear()
+    return redirect('/login')
+
+
+@app.route("/register", methods=["GET"])
 def get_register():
 
     if request.method == "GET":
@@ -58,9 +78,11 @@ def get_register():
         sur_name = request.form["surname"]
         password = request.form["password"]
         email = request.form["email"]
+        birth_date = datetime.strptime(request.form['birth_date'], "%Y-%m-%d")
+        country = request.form["country"]
 
         init_db()
-        new_user = models.User(name=use_name, surname=sur_name, password=password, email=email)
+        new_user = models.User(name=use_name, surname=sur_name, password=password, email=email, birth_date=birth_date, country=country)
         db_session.add(new_user)
         db_session.commit()
 
@@ -87,18 +109,27 @@ def get_all_category():
 @app.route("/category/<category_id>", methods=["GET", "POST"])
 def get_category(category_id):
     if 'user_id' in session:
+        init_db()
+        current_category = db_session.scalar(select(models.Category).filter_by(id=int(category_id)))
+
         if request.method == 'GET':
-            init_db()
-            current_category = db_session.scalar(select(models.Category).filter_by(id=int(category_id)))
-            res = db_session.execute(select(models.Transaction).filter_by(category=int(category_id), owner=session['user_id'])).scalars
+            res = db_session.execute(select(models.Transaction).filter_by(category=int(category_id), owner=session['user_id'])).scalars()
             return render_template('one_category.html', transactions=res, category=current_category)
-        else:
-            return "bla bla bla"
+        elif request.method == 'POST':
+            new_cat_name = request.form['category_name']
+            current_category.name = new_cat_name
+            db_session.commit()
+            return redirect('/category')
 
 
 @app.route("/category/<category_id>/delete", methods=["GET"])
 def delete_category(category_id):
-    return f"Delete_category {category_id}"
+    init_db()
+    other_category = db_session.query(Category).filter_by(name="other").first()
+    db_session.query(Transaction).filter_by(id=int(category_id)).update({Transaction.id: other_category.id})
+    db_session.query(Category).filter_by(id=int(category_id)).delete()
+    db_session.commit()
+    return redirect("/category")
 
 
 @app.route("/income", methods=["GET", "POST"])
@@ -114,7 +145,7 @@ def get_all_income():
     else:
         init_db()
         new_trans = models.Transaction(description=request.form['description'], amount=request.form['amount'],
-                                       owner=session['user_id'], category=request.form['category'],
+                                       owner=session['user_id'], category=int(request.form['category']),
                                        type='income', date=datetime.strptime(request.form['date'], "%Y-%m-%d"))
         db_session.add(new_trans)
         db_session.commit()
@@ -143,7 +174,7 @@ def get_all_spend():
     else:
         init_db()
         new_trans = models.Transaction(description=request.form['description'], amount=request.form['amount'],
-                                       owner=session['user_id'], category=request.form['category'],
+                                       owner=session['user_id'], category=int(request.form['category']),
                                        type='spend', date=datetime.strptime(request.form['date'], "%Y-%m-%d"))
         db_session.add(new_trans)
         db_session.commit()

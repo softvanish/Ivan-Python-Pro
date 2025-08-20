@@ -3,13 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Login form</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            padding-top: 40px;
+        }
+        form {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin: 8px 0 4px;
+            font-weight: bold;
+        }
+        input[type="email"]
+        input[type="password"],
+         {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 28px;
+            margin-bottom: 12px;
+        }
+        input[type="submit"],
+        button {
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        button {
+            background-color: #2196F3;
+            color: white;
+        }
+        button:hover {
+            background-color: #1976D2;
+        }
+    </style>
 </head>
 <body>
 <form action="/login" method = "post">
-  <label for="email">email</label><br>
+
+  <label for="email">Email</label><br>
   <input type="email" id="email" name="email"><br>
-  <label for="password">password:</label><br>
+
+  <label for="password">Password:</label><br>
   <input type="password" id="password" name="password"><br><br>
+
   <input type="submit" value="Submit">
 </form>
 </body>
